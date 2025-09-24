@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>153.Filmes - Produtora de Vídeo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Configurações Globais e Variáveis de Cor */
+        :root {
+            --color-black: #000000;
+            --color-dark-bg: #101010;
+            --color-light-text: #f0f0f0;
+            --color-gray-text: #a0a0a0;
+            --font-primary: 'Poppins', sans-serif;
+            --gradient-start: #00c6ff;
+            --gradient-end: #4a00e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-black);
+            color: var(--color-light-text);
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho e Navegação */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            padding: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--color-light-text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Efeito de Gradiente no Texto */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        /* Seção Hero */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1574717024633-6cf308433f89?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--color-gray-text);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Botão Principal (CTA) */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 28px;
+            border: 2px solid var(--gradient-start);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--color-light-text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s ease;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 198, 255, 0.2);
+        }
+
+        /* Seções de Conteúdo */
+        .content-section {
+            padding: 6rem 5%;
+            text-align: center;
+            background-color: var(--color-dark-bg);
+        }
+        .content-section:nth-of-type(odd) {
+            background-color: var(--color-black);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin-bottom: 3rem;
+            color: var(--color-gray-text);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Sobre Nós */
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        
+        .about-text p:first-child {
+            margin-bottom: 1rem;
+        }
+
+        /* Portfólio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .overlay h3 {
+            color: var(--color-light-text);
+            font-size: 1.2rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .portfolio-item:hover .overlay h3 {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+
+        /* Serviços */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            text-align: left;
+        }
+
+        .service-card {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border-radius: 10px;
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)) 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Formulário de Contato */
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: #1a1a1a;
+            color: var(--color-light-text);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--gradient-start);
+        }
+
+        .contact-form button {
+            align-self: center;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Rodapé */
+        footer {
+            padding: 2rem 5%;
+            background-color: var(--color-dark-bg);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-content p {
+            color: var(--color-gray-text);
+        }
+
+        .social-links a {
+            color: var(--color-gray-text);
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gradient-start);
+        }
+        
+        /* Menu Hamburger (para mobile) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--color-light-text);
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 1.5rem 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho e Navegação -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#hero"><img src="image_72a7c3.png" alt="Logo 153.Filmes"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">Início</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Seção Principal (Hero) -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Histórias que <span class="gradient-text">Inspiram</span>. Imagens que <span class="gradient-text">Marcam</span>.</h1>
+                <p>Transformamos ideias em realidade audiovisual com criatividade e tecnologia de ponta.</p>
+                <a href="#contato" class="cta-button">Faça um Orçamento</a>
+            </div>
+        </section>
+
+        <!-- Seção Sobre Nós -->
+        <section id="sobre" class="content-section">
+            <h2 class="section-title">SOBRE A <span class="gradient-text">153.FILMES</span></h2>
+            <div class="about-text">
+                <p>Somos uma produtora de filmes e conteúdo audiovisual apaixonada por contar histórias. Desde a concepção do roteiro até a finalização, nossa equipe se dedica a criar peças que não apenas atendem, mas superam as expectativas. Com um olhar cinematográfico e foco em inovação, a 153.Filmes é sua parceira ideal para dar vida ao seu projeto.</p>
+                <p>Nossa missão é produzir conteúdo que conecta marcas e pessoas de forma autêntica e emocionante.</p>
+            </div>
+        </section>
+
+        <!-- Seção Portfólio -->
+        <section id="portfolio" class="content-section">
+            <h2 class="section-title"><span class="gradient-text">PORTFÓLIO</span></h2>
+            <div class="portfolio-grid">
+                <!-- Item 1 -->
+                <div class="portfolio-item">
+                    <img src="https://placehold.co/600x400/101010/00c6ff?text=Projeto+A" alt="Thumbnail do Projeto A">
+                    <div class="overlay"><h3>Curta-Metragem "O Destino"</h3></div>
+                </div>
+                <!-- Item 2 -->
+                <div class="portfolio-item">
+                    <img src="https://placehold.co/600x400/101010/4a00e0?text=Projeto+B" alt="Thumbnail do Projeto B">
+                    <div class="overlay"><h3>Videoclipe "Neon Lights"</h3></div>
+                </div>
+                <!-- Item 3 -->
+                <div class="portfolio-item">
+                    <img src="https://placehold.co/600x400/101010/8e2de2?text=Projeto+C" alt="Thumbnail do Projeto C">
+                    <div class="overlay"><h3>Comercial "TechWave"</h3></div>
+                </div>
+                <!-- Item 4 -->
+                <div class="portfolio-item">
+                    <img src="https://placehold.co/600x400/101010/00c6ff?text=Projeto+D" alt="Thumbnail do Projeto D">
+                    <div class="overlay"><h3>Documentário "Amazônia Viva"</h3></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Serviços -->
+        <section id="servicos" class="content-section">
+            <h2 class="section-title">NOSSOS <span class="gradient-text">SERVIÇOS</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Pré-Produção</h3>
+                    <p>Desenvolvimento de roteiros, storyboards, planejamento e seleção de elenco.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Produção e Filmagem</h3>
+                    <p>Captação de imagens em alta definição (4K/8K), filmagens aéreas com drones e direção de cena.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Pós-Produção</h3>
+                    <p>Edição, color grading, efeitos visuais (VFX), trilha sonora e design de som.</p>
+                </div>
+                 <div class="service-card">
+                    <h3>Conteúdo Digital</h3>
+                    <p>Criação de vídeos para redes sociais, campanhas de marketing e conteúdo institucional.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato" class="content-section">
+            <h2 class="section-title">VAMOS TIRAR SUA IDEIA DO PAPEL?</h2>
+            <p class="subtitle">Envie uma mensagem e vamos criar algo incrível juntos.</p>
+            <form class="contact-form" action="#" method="post">
+                <input type="text" name="name" placeholder="Seu Nome" required>
+                <input type="email" name="email" placeholder="Seu E-mail" required>
+                <textarea name="message" rows="5" placeholder="Sua Mensagem" required></textarea>
+                <button type="submit" class="cta-button">Enviar Mensagem</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 | 153.Filmes | Todos os direitos reservados.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Vimeo</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para o menu hamburger em dispositivos móveis
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Fecha o menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
